@@ -16,6 +16,7 @@ features, report issues, or contribute code changes.
 
 See [metrics_discovery_helper.h](source/metrics_discovery_helper.h) for documentation, and for sample usage:
 - [samples/periodic_sample](samples/periodic_sample/periodic_sample.cpp)
+- [samples/range_sample_dx11](samples/range_sample_dx11/range_sample_dx11.cpp)
 
 ## License
 
