@@ -14,7 +14,8 @@ MetricsDiscoveryHelper is a runtime library that helps configure and collect Met
 Please see [CONTRIBUTING](CONTRIBUTING.md) for information on how to request
 features, report issues, or contribute code changes.
 
-See [metrics_discovery_helper.h](source/metrics_discovery_helper.h) for documentation.
+See [metrics_discovery_helper.h](source/metrics_discovery_helper.h) for documentation, and for sample usage:
+- [samples/periodic_sample](samples/periodic_sample/periodic_sample.cpp)
 
 ## License
 
