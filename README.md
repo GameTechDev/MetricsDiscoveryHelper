@@ -14,6 +14,8 @@ MetricsDiscoveryHelper is a runtime library that helps configure and collect Met
 Please see [CONTRIBUTING](CONTRIBUTING.md) for information on how to request
 features, report issues, or contribute code changes.
 
+See [metrics_discovery_helper.h](source/metrics_discovery_helper.h) for documentation.
+
 ## License
 
 Copyright 2018 Intel Corporation
@@ -35,4 +37,10 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+## Building
+
+Use VisualStudio 2017 to build the desired configuration of metrics_discovery_helper.vcxproj.
+
+The resulting includes and library will be copied to ```build\include\``` and ```build\lib\```.
 
