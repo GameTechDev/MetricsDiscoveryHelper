@@ -46,7 +46,7 @@ namespace MetricsDiscoveryInternal
         CMetricsCalculator*  Calculator;            // Required
 
         // MetricSet
-        IMetricSet_1_1*      MetricSet;             // Required
+        IMetricSet_1_0*      MetricSet;             // Required
         uint32_t             MetricsAndInformationCount;
 
         // Input
@@ -142,7 +142,7 @@ Description:
 
     private:
         bool FindIoReportOfInterest( TStreamCalculationContext* sc, bool isPrevReport );
-        int32_t GetInformationIndex( const char* symbolName, IMetricSet_1_1* set );
+        int32_t GetInformationIndex( const char* symbolName, IMetricSet_1_0* set );
     };
 
 /*****************************************************************************\
@@ -157,7 +157,7 @@ Description:
     class CMetricsCalculator
     {
     public:
-        CMetricsCalculator( IMetricsDevice_1_1* metricsDevice );
+        CMetricsCalculator( IMetricsDevice_1_0* metricsDevice );
         ~CMetricsCalculator();
 
         void               Reset( uint32_t rawReportSize = 0 );
@@ -165,40 +165,39 @@ Description:
         TCompletionCode    ReadMetricsFromQueryReport(
             const unsigned char*   rawData,
             TTypedValue_1_0*       outValues,
-            IMetricSet_1_1*        metricSet );
+            IMetricSet_1_0*        metricSet );
 
         TCompletionCode    ReadMetricsFromIoReport(
             const unsigned char*   reportRaportLast,
             const unsigned char*   reportRaportPrev,
             TTypedValue_1_0*       outValues,
-            IMetricSet_1_1*        metricSet );
+            IMetricSet_1_0*        metricSet );
 
         void                NormalizeMetrics(
             TTypedValue_1_0*       deltaValues,
             TTypedValue_1_0*       outValues,
-            IMetricSet_1_1*        metricSet );
+            IMetricSet_1_0*        metricSet );
 
         void                ReadInformation(
             const unsigned char*   rawData,
             TTypedValue_1_0*       outValues,
-            IMetricSet_1_1*        metricSet );
+            IMetricSet_1_0*        metricSet );
 
         void                ReadIoMeasurementInformation(
-            IConcurrentGroup_1_1*  concurrentGroup,
+            IConcurrentGroup_1_0*  concurrentGroup,
             TTypedValue_1_0*       outValues );
 
         void                CalculateMaxValues(
             TTypedValue_1_0*       deltaMetricValues,
             TTypedValue_1_0*       outMetricValues,
             TTypedValue_1_0*       outMaxValues,
-            IMetricSet_1_1*        metricSet );
+            IMetricSet_1_0*        metricSet );
 
         TCompletionCode     SaveReport( const unsigned char* lastReport );
         bool                SavedReportPresent();
         unsigned char*      GetSavedReport();
         void                DiscardSavedReport();
 
-    private:
         TTypedValue_1_0     CalculateReadEquation(
             IEquation_1_0*         equation,
             const unsigned char*   rawReport );
@@ -216,9 +215,9 @@ Description:
 
         TTypedValue_1_0     CalculateLocalNormalizationEquation(
             IEquation_1_0*         equation,
-            TTypedValue_1_0*       deltaValues,
-            TTypedValue_1_0*       results,
-            IMetricSet_1_1*        metricSet,
+            const TTypedValue_1_0* deltaValues,
+            const TTypedValue_1_0* results,
+            IMetricSet_1_0*        metricSet,
             uint32_t               metricIndex );
 
         TTypedValue_1_0     CalculateEquationElemOperation(
@@ -264,7 +263,7 @@ Description:
         uint32_t                m_savedReportSize;
         unsigned char*          m_savedReport;
         bool                    m_savedReportPresent;
-        IMetricsDevice_1_1*     m_device;
+        IMetricsDevice_1_0*     m_device;
     };
 
 }

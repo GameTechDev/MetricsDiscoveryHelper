@@ -38,7 +38,7 @@ namespace MetricsDiscoveryInternal
 {
 /* Forward declarations */
 template<> bool    CMetricsCalculationManager<MEASUREMENT_TYPE_SNAPSHOT_IO>::FindIoReportOfInterest( TStreamCalculationContext* sc, bool isPrevReport );
-template<> int32_t CMetricsCalculationManager<MEASUREMENT_TYPE_SNAPSHOT_IO>::GetInformationIndex( const char* symbolName, IMetricSet_1_1* metricSet );
+template<> int32_t CMetricsCalculationManager<MEASUREMENT_TYPE_SNAPSHOT_IO>::GetInformationIndex( const char* symbolName, IMetricSet_1_0* metricSet );
 
 /*****************************************************************************\
 
@@ -370,14 +370,14 @@ Description:
 
 Input:
     const char*     symbolName - information symbol name to find
-    IMetricSet_1_1* metricSet  - metric set
+    IMetricSet_1_0* metricSet  - metric set
 
 Output:
     int - given information index in MetricSet, -1 if not found or error
 
 \*****************************************************************************/
 template<>
-int CMetricsCalculationManager<MEASUREMENT_TYPE_SNAPSHOT_IO>::GetInformationIndex( const char* symbolName, IMetricSet_1_1* metricSet )
+int CMetricsCalculationManager<MEASUREMENT_TYPE_SNAPSHOT_IO>::GetInformationIndex( const char* symbolName, IMetricSet_1_0* metricSet )
 {
     MD_CHECK_PTR_RET( symbolName, -1 );
     MD_CHECK_PTR_RET( metricSet, -1 );
@@ -411,11 +411,11 @@ Description:
     CMetricsCalculator constructor.
 
 Input:
-    IMetricsDevice_1_1* metricsDevice - MetricsDevice used for obtaining GlobalSymbols
+    IMetricsDevice_1_0* metricsDevice - MetricsDevice used for obtaining GlobalSymbols
                                         during calculations
 
 \*****************************************************************************/
-CMetricsCalculator::CMetricsCalculator( IMetricsDevice_1_1* metricsDevice )
+CMetricsCalculator::CMetricsCalculator( IMetricsDevice_1_0* metricsDevice )
 {
     m_device             = metricsDevice;
     m_gpuCoreClocks      = 0;
@@ -585,13 +585,13 @@ Description:
 Input:
     const unsigned char* rawReport - (IN) single raw report
     TTypedValue_1_0*     outValues - (OUT) single output report
-    IMetricSet_1_1*      metricSet - metric set for which the calculation will be conducted
+    IMetricSet_1_0*      metricSet - metric set for which the calculation will be conducted
 
 Output:
     TCompletionCode - *CC_OK* means success
 
 \*****************************************************************************/
-TCompletionCode CMetricsCalculator::ReadMetricsFromQueryReport( const unsigned char* rawReport, TTypedValue_1_0* outValues, IMetricSet_1_1* metricSet )
+TCompletionCode CMetricsCalculator::ReadMetricsFromQueryReport( const unsigned char* rawReport, TTypedValue_1_0* outValues, IMetricSet_1_0* metricSet )
 {
     MD_CHECK_PTR_RET( rawReport, CC_ERROR_INVALID_PARAMETER );
     MD_CHECK_PTR_RET( outValues, CC_ERROR_INVALID_PARAMETER );
@@ -639,14 +639,14 @@ Input:
     const unsigned char* rawRaportLast - (IN) last (next) single raw report
     const unsigned char* rawRaportPrev - (IN) previous single raw report
     TTypedValue_1_0*     outValues     - (OUT) read metric values
-    IMetricSet_1_1*      metricSet     - MetricSet for calculations
+    IMetricSet_1_0*      metricSet     - MetricSet for calculations
 
 Output:
     TCompletionCode - *CC_OK* means success
 
 \*****************************************************************************/
 TCompletionCode CMetricsCalculator::ReadMetricsFromIoReport( const unsigned char* rawRaportLast, const unsigned char* rawRaportPrev,
-    TTypedValue_1_0* outValues, IMetricSet_1_1* metricSet )
+    TTypedValue_1_0* outValues, IMetricSet_1_0* metricSet )
 {
     MD_CHECK_PTR_RET( rawRaportLast, CC_ERROR_INVALID_PARAMETER );
     MD_CHECK_PTR_RET( rawRaportPrev, CC_ERROR_INVALID_PARAMETER );
@@ -695,10 +695,10 @@ Description:
 Input:
     TTypedValue_1_0* deltaValues - (IN) previously read metric delta values
     TTypedValue_1_0* outValues   - (OUT) output normalized metric values
-    IMetricSet_1_1*  metricSet   - MetricSet for calculations
+    IMetricSet_1_0*  metricSet   - MetricSet for calculations
 
 \*****************************************************************************/
-void CMetricsCalculator::NormalizeMetrics( TTypedValue_1_0* deltaValues, TTypedValue_1_0* outValues, IMetricSet_1_1* metricSet )
+void CMetricsCalculator::NormalizeMetrics( TTypedValue_1_0* deltaValues, TTypedValue_1_0* outValues, IMetricSet_1_0* metricSet )
 {
     if( !deltaValues || !outValues || !metricSet )
     {
@@ -740,10 +740,10 @@ Description:
 Input:
     const unsigned char* rawData   - (IN) single raw report data
     TTypedValue_1_0*     outValues - (OUT) out values with calculated information
-    IMetricSet_1_1*      metricSet - MetricSet for calculations
+    IMetricSet_1_0*      metricSet - MetricSet for calculations
 
 \*****************************************************************************/
-void CMetricsCalculator::ReadInformation( const unsigned char* rawData, TTypedValue_1_0* outValues, IMetricSet_1_1* metricSet )
+void CMetricsCalculator::ReadInformation( const unsigned char* rawData, TTypedValue_1_0* outValues, IMetricSet_1_0* metricSet )
 {
     if( !rawData || !outValues || !metricSet )
     {
@@ -775,11 +775,11 @@ Description:
     Calculates IoMeasurementInformation obtained on every ReadIoStream.
 
 Input:
-    IConcurrentGroup_1_1* concurrentGroup - ConcurrentGroup which was used during ReadIoStream
+    IConcurrentGroup_1_0* concurrentGroup - ConcurrentGroup which was used during ReadIoStream
     TTypedValue_1_0*      outValues       - (OUT) calculated values
 
 \*****************************************************************************/
-void CMetricsCalculator::ReadIoMeasurementInformation( IConcurrentGroup_1_1* concurrentGroup, TTypedValue_1_0* outValues )
+void CMetricsCalculator::ReadIoMeasurementInformation( IConcurrentGroup_1_0* concurrentGroup, TTypedValue_1_0* outValues )
 {
     if( !outValues || !concurrentGroup )
     {
@@ -832,11 +832,11 @@ Input:
     TTypedValue_1_0* deltaMetricValues - (IN) previously read metric delta values
     TTypedValue_1_0* outMetricValues   - (IN) normalized metric values
     TTypedValue_1_0* outMaxValues      - (OUT) output max values
-    IMetricSet_1_1*  metricSet         - MetricSet for calculations
+    IMetricSet_1_0*  metricSet         - MetricSet for calculations
 
 \*****************************************************************************/
 void CMetricsCalculator::CalculateMaxValues( TTypedValue_1_0* deltaMetricValues, TTypedValue_1_0* outMetricValues,
-    TTypedValue_1_0* outMaxValues, IMetricSet_1_1* metricSet )
+    TTypedValue_1_0* outMaxValues, IMetricSet_1_0* metricSet )
 {
     if( !deltaMetricValues || !outMetricValues || !outMaxValues || !metricSet )
     {
@@ -1328,15 +1328,15 @@ Input:
     IEquation_1_0*   equation         - (IN) normalization equation to be calculated
     TTypedValue_1_0* deltaValues      - (IN) previously calculated / read delta values
     TTypedValue_1_0* outValues        - (IN) so far normalized values (metrics with lower indices)
-    IMetricSet_1_1*  metricSet        - MetricSet for calculation
+    IMetricSet_1_0*  metricSet        - MetricSet for calculation
     uint32_t         currentMetricIdx - index of the currently calculated metric
 
 Output:
     TTypedValue_1_0 - output normalized value
 
 \*****************************************************************************/
-TTypedValue_1_0 CMetricsCalculator::CalculateLocalNormalizationEquation( IEquation_1_0* equation, TTypedValue_1_0* deltaValues,
-    TTypedValue_1_0* outValues, IMetricSet_1_1* metricSet, uint32_t currentMetricIdx )
+TTypedValue_1_0 CMetricsCalculator::CalculateLocalNormalizationEquation( IEquation_1_0* equation, const TTypedValue_1_0* deltaValues,
+    const TTypedValue_1_0* outValues, IMetricSet_1_0* metricSet, uint32_t currentMetricIdx )
 {
     TTypedValue_1_0             typedValue;
     bool                        isValid        = true;
