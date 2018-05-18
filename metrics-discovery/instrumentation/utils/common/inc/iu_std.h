@@ -44,6 +44,10 @@ Description:
     #include <syslog.h>
     #define iu_log(msg)      syslog(LOG_USER | LOG_ERR, "%s", msg)
     #define iu_printfln(msg) printf("%s\n", msg)
+#elif defined(_WIN32)
+    #include <windows.h>
+    #define iu_log(msg)      OutputDebugStringA(msg)
+    #define iu_printfln(msg) printf("%s\n", msg)
 #endif
 
 /*****************************************************************************\
