@@ -30,7 +30,7 @@ SOFTWARE.
 #include <devpkey.h>
 #include <initguid.h>
 #include <ntddvdeo.h>
-#include <pathcch.h>
+#include <shlwapi.h>
 #include <setupapi.h>
 
 namespace {
@@ -78,9 +78,11 @@ void* OpenDllHandle()
         wchar_t path[MAX_PATH] = {};
         if (!SetupDiGetDevicePropertyW(devices, &devInfo, &DEVPKEY_Device_DriverInfPath,
                 &propertyType, (PBYTE) path, sizeof(path), nullptr, 0) ||
-            !SetupGetInfDriverStoreLocationW(path, nullptr, nullptr, path, MAX_PATH, nullptr) ||
-            PathCchRemoveFileSpec(path, MAX_PATH) != S_OK ||
-            PathCchAppendEx(path, MAX_PATH, dllFilename, 0) != S_OK) {
+            !SetupGetInfDriverStoreLocationW(path, nullptr, nullptr, path, MAX_PATH, nullptr)) {
+            break;
+        }
+        PathRemoveFileSpecW(path);
+        if (!PathAppendW(path, dllFilename)) {
             break;
         }
 

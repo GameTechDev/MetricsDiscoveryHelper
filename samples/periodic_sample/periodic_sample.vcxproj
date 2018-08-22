@@ -68,8 +68,6 @@
       </AdditionalLibraryDirectories>
       <AdditionalDependencies>
         metrics_discovery_helper.lib;
-        pathcch.lib;
-        setupapi.lib;
       </AdditionalDependencies>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
@@ -98,8 +96,6 @@
       </AdditionalLibraryDirectories>
       <AdditionalDependencies>
         metrics_discovery_helper.lib;
-        pathcch.lib;
-        setupapi.lib;
       </AdditionalDependencies>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>

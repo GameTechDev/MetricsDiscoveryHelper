@@ -27,6 +27,9 @@ SOFTWARE.
 #include <windows.h>
 #include "metrics_discovery_api.h"
 
+#pragma comment(lib, "setupapi.lib")
+#pragma comment(lib, "shlwapi.lib")
+
 #ifdef NDEBUG
 #define MDH_CHECK_CC(_CC) (void) _CC
 #else

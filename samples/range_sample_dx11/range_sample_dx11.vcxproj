@@ -68,8 +68,6 @@
         d3dcompiler.lib;
         dxgi.lib;
         metrics_discovery_helper.lib;
-        pathcch.lib;
-        setupapi.lib;
         user32.lib
       </AdditionalDependencies>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
