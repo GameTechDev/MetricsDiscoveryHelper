@@ -1257,12 +1257,12 @@ TCompletionCode CDriverInterfaceLinuxPerf::OpenIoStream( TStreamType streamType,
 
     // 2. SET PARAMS
     uint32_t    timerPeriodExponent = GetTimerPeriodExponent( *nsTimerPeriod );
-    uint32_t    perfReportType      = I915_OA_FORMAT_A32u40_A4u32_B8_C8;
+    uint32_t    perfReportType      = GetPerfReportType( metricSet->GetReportType() );
     int32_t     perfMetricSetId     = -1;
     uint32_t    regCount            = 0;
     TRegister** regVector           = metricSet->GetStartConfiguration( &regCount );
 
-    if( metricSet->GetReportType() != OA_REPORT_TYPE_256B_A45_NOA16 )
+    if( perfReportType == I915_OA_FORMAT_MAX )
     {
         ret = CC_ERROR_NOT_SUPPORTED;
         goto deactivate;
@@ -1680,6 +1680,8 @@ TCompletionCode CDriverInterfaceLinuxPerf::OpenPerfStream( uint32_t perfMetricSe
     param.properties_ptr = (uint64_t)properties;
     param.num_properties = sizeof(properties) / 16;
 
+    MD_LOG( LOG_DEBUG, "Opening i915 perf stream with params: perfMetricSetId: %u, perfReportType: %u, timerPeriodExponent: %u", perfMetricSetId, perfReportType, timerPeriodExponent );
+
     perfEventFd = SendIoctl( m_DrmFd, DRM_IOCTL_I915_PERF_OPEN, &param );
     if( perfEventFd == -1 )
     {
@@ -1713,8 +1715,8 @@ Input:
     bool*     reportLostOccured - (OUT) true if report lost was reported by Perf
 
 Output:
-    TCompletionCode                 - *CC_OK* means success, BUT IT DOESN'T MEAN ALL REQUESTED DATA WAS READ !!
-                                      (check readBytes for that).
+    TCompletionCode             - *CC_OK* means success, BUT IT DOESN'T MEAN ALL REQUESTED DATA WAS READ !!
+                                  (check readBytes for that).
 
 \*****************************************************************************/
 TCompletionCode CDriverInterfaceLinuxPerf::ReadPerfStream( uint32_t oaReportSize, uint32_t reportsToRead, char* reportData, uint32_t* readBytes, bool* reportLostOccured )
@@ -1725,17 +1727,19 @@ TCompletionCode CDriverInterfaceLinuxPerf::ReadPerfStream( uint32_t oaReportSize
         return CC_ERROR_FILE_NOT_FOUND;
     }
 
-    const size_t               outBufferSize   = oaReportSize * reportsToRead;
-    const size_t               perfReportSize  = sizeof(drm_i915_perf_record_header) + oaReportSize;    // Perf report size is bigger (additional header)
-    const size_t               perfBytesToRead = reportsToRead * perfReportSize;
-    std::vector<unsigned char> perfReportData( perfBytesToRead );
+    const size_t outBufferSize   = oaReportSize * reportsToRead;
+    const size_t perfReportSize  = sizeof(drm_i915_perf_record_header) + oaReportSize;    // Perf report size is bigger (additional header)
+    const size_t perfBytesToRead = reportsToRead * perfReportSize;
+
+    // Resize Perf report buffer if needed
+    m_PerfStreamReportData.resize( perfBytesToRead );
 
     MD_LOG( LOG_DEBUG, "Trying to read %u reports from i915 perf stream, fd: %d", reportsToRead, m_PerfStreamFd );
 
     // #Note May read 1 sample less than requested if ReportLost is returned from kernel
 
     // 1. READ DATA
-    int32_t perfReadBytes = read( m_PerfStreamFd, perfReportData.data(), perfBytesToRead );
+    int32_t perfReadBytes = read( m_PerfStreamFd, m_PerfStreamReportData.data(), perfBytesToRead );
     if( perfReadBytes < 0 )
     {
         *readBytes = 0;
@@ -1754,7 +1758,7 @@ TCompletionCode CDriverInterfaceLinuxPerf::ReadPerfStream( uint32_t oaReportSize
     size_t perfDataOffset = 0;
     while( perfDataOffset < (size_t)perfReadBytes )
     {
-        const iu_i915_perf_record* perfOaRecord = (const iu_i915_perf_record*) (perfReportData.data() + perfDataOffset);
+        const iu_i915_perf_record* perfOaRecord = (const iu_i915_perf_record*) (m_PerfStreamReportData.data() + perfDataOffset);
         if( !perfOaRecord->header.size )
         {
             MD_LOG( LOG_ERROR, "ERROR: 0 header size" );
@@ -2172,6 +2176,46 @@ bool CDriverInterfaceLinuxPerf::PerfMetricSetExists( const char* guid )
 
     // Check whether the file exists (F_OK)
     return (access( filePath, F_OK ) != -1);
+}
+
+/*****************************************************************************\
+
+Class:
+    CDriverInterfaceLinuxPerf
+
+Method:
+    GetPerfReportType
+
+Description:
+    Returns Perf report format based on MDAPI report type and current platform.
+
+Input:
+    TReportType reportType - MDAPI report type
+
+Output:
+    uint32_t               - Perf report format, I915_OA_FORMAT_MAX if error
+
+\*****************************************************************************/
+uint32_t CDriverInterfaceLinuxPerf::GetPerfReportType( TReportType reportType )
+{
+    // Only one MDAPI type is expected
+    if( reportType != OA_REPORT_TYPE_256B_A45_NOA16 )
+    {
+        MD_LOG( LOG_ERROR, "ERROR: Unsupported report type" );
+        return I915_OA_FORMAT_MAX;
+    }
+
+    // Get platform ID
+    GTDI_PLATFORM_INDEX instrPlatformId = GTDI_PLATFORM_MAX;
+    if( GetInstrPlatformId( &instrPlatformId ) != CC_OK || instrPlatformId == GTDI_PLATFORM_MAX )
+    {
+        MD_LOG( LOG_ERROR, "ERROR: Could not get platform ID" );
+        return I915_OA_FORMAT_MAX;
+    }
+
+    // Perf requires different format for HSW
+    return (instrPlatformId == GENERATION_HSW) ? I915_OA_FORMAT_A45_B8_C8
+                                               : I915_OA_FORMAT_A32u40_A4u32_B8_C8;
 }
 
 /*****************************************************************************\

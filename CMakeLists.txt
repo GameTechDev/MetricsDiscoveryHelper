@@ -87,6 +87,8 @@ endif ()
 # generic
 set (LOCAL_SRC_FILES ${LOCAL_SRC_FILES}
     # mdapi metrics definitions
+    ${BS_DIR_INSTRUMENTATION}/metrics_discovery/codegen/md_main_HSW.cpp
+    ${BS_DIR_INSTRUMENTATION}/metrics_discovery/codegen/md_main_BDW.cpp
     ${BS_DIR_INSTRUMENTATION}/metrics_discovery/codegen/md_main_BXT.cpp
     ${BS_DIR_INSTRUMENTATION}/metrics_discovery/codegen/md_main_SKL_GT2.cpp
     ${BS_DIR_INSTRUMENTATION}/metrics_discovery/codegen/md_main_SKL_GT3.cpp
@@ -202,17 +204,44 @@ if ("${PLATFORM}" STREQUAL "linux")
 endif ()
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY POSITION_INDEPENDENT_CODE ON)
+set_metrics_discovery_version()
+set_property(TARGET ${PROJECT_NAME} PROPERTY VERSION ${MD_VERSION})
+set_property(TARGET ${PROJECT_NAME} PROPERTY SOVERSION ${MD_VERSION_MAJOR})
+
+#################################################################################
+# INSTALL
+#################################################################################
+
+# pkg-config file
+set (PC_FILE lib${PROJECT_NAME}.pc)
+set (PC_IN ${PC_FILE}.in)
+
+set (DEST_DIR ${CMAKE_INSTALL_PREFIX})
+set (LIB -l${PROJECT_NAME})
+
+if ("${LIB_INSTALL_DIR}" STREQUAL "")
+    set (LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}")
+endif()
+set (LIB_DIR ${LIB_INSTALL_DIR})
+configure_file (${PC_IN} ${CMAKE_BINARY_DIR}/${PC_FILE} @ONLY)
+install (FILES ${CMAKE_BINARY_DIR}/${PC_FILE} DESTINATION lib/pkgconfig)
+
+# Library/header
+install (TARGETS ${PROJECT_NAME} DESTINATION ${LIB_INSTALL_DIR})
+install (FILES "${BS_DIR_INC}/common/instrumentation/api/metrics_discovery_api.h" DESTINATION include/mdapi)
 
 #################################################################################
 # DEBUG
 #################################################################################
 
 message ("INFO: PROJECT_NAME           = ${PROJECT_NAME}")
+message ("INFO: VERSION                = ${MD_VERSION}")
 message ("INFO: BUILD_TYPE             = ${BUILD_TYPE}")
 message ("INFO: PLATFORM               = ${PLATFORM}")
 message ("INFO: ARCH                   = ${ARCH}")
 message ("INFO: LINUX_DISTRO           = ${LINUX_DISTRO}")
 message ("INFO: DUMP_DIR               = ${DUMP_DIR}")
+message ("INFO: LIB_INSTALL_DIR        = ${LIB_INSTALL_DIR}")
 message ("INFO: LIBDRM_SRC             = ${LIBDRM_SRC}")
 message ("INFO: DRM_LIB_PATH           = ${DRM_LIB_PATH}")
 message ("INFO: BS_DIR_INSTRUMENTATION = ${BS_DIR_INSTRUMENTATION}")
