@@ -39,7 +39,7 @@ SOFTWARE.
 // MetricsDiscoveryHelper is intended as a minimal helper layer to be used in
 // conjunction with the MetricsDiscovery API, not to replace it.  Therefore, it
 // is a C++ API and all MetricsDiscovery objects are exposed, allowing the user
-// to replace any MetricsDiscoveryHelper API with her own code.
+// to replace any MetricsDiscoveryHelper API with their own code.
 //
 // Usage validation is largely handled via assert() so that the release build
 // is as unencumbered as possible.
@@ -50,7 +50,7 @@ SOFTWARE.
 // is no longer needed, the application should call MDH_Context::Finalize()
 // (after which time, all MDH objects become unusable).
 //
-// You must call Initialize() before creating a D3D11 device.
+// You must call Initialize() before creating a D3D device.
 
 struct MDH_Context {
     MetricsDiscovery::IMetricsDevice_1_5* MDDevice;
@@ -74,13 +74,14 @@ struct MDH_Context {
 
 
 // Obtain the MetricsDiscovery API version used to compile
-// MetricsDiscoveryHelper ("API") or by the system's driver ("Driver").
+// MetricsDiscoveryHelper (MDH_GetApiVersion()) or by the system's driver
+// (MDH_GetDriverVersion()).
 //
-// MDH_Context::Initialize() does not require that the versions match and the
-// MDAPI itself is backwards compatible.  However, the driver may not support
-// all the functionality used by this version of the API.  For example, don't
-// call IMetricsDevice_1_2-specific functionality if the driver is less than
-// version 1.2.
+// MDH_Context::Initialize() does not require that the versions match and
+// MetricsDiscovery API is backwards compatible.  However, the driver may not
+// support all the functionality used by this version of the API if it is
+// older.  For example, don't call IMetricsDevice_1_2-specific functionality if
+// the driver is less than version 1.2.
 //
 // MDH_GetDriverVersion() will return { 0, 0, 0 } if mdDevice is incompatible
 // or not properly initialized.
@@ -114,8 +115,8 @@ bool MDH_DriverSupportsMDVersion(
 //     - A MetricSet is a set of Metrics that are all collected at the same
 //     time.
 //
-//     - A ConcurrentGroup is a group of MetricSets that cannot be used at the
-//     same time.
+//     - A ConcurrentGroup is a group of MetricSets that cannot be active at
+//     the same time.
 //
 //     - An Override is a function that changes the system's default behaviour.
 
@@ -130,7 +131,7 @@ MetricsDiscovery::IMetricSet_1_0* MDH_FindMetricSet(
     MetricsDiscovery::IConcurrentGroup_1_0* concurrentGroup,
     char const* symbolName);
 
-// returns (uint32_t) -1 if not found
+// returns UINT32_MAX if not found
 uint32_t MDH_FindMetric(
     MetricsDiscovery::IMetricSet_1_0* mdMetricSet,
     char const* desiredMetricSymbolName);
@@ -149,7 +150,9 @@ char const* MDH_GetMetricUnits(
     MetricsDiscovery::IMetricSet_1_0* mdMetricSet,
     uint32_t metricIndex);
 
-// Run the max-value equation associated with the metric (if there is one).
+// Run the max-value equation associated with the metric.  Returns a
+// TTYpedValue_1_0 with a value of 0 if the metric does not have a max value
+// equation.
 MetricsDiscovery::TTypedValue_1_0 MDH_CalculateMaxValue(
     MetricsDiscovery::IMetricsDevice_1_0* mdDevice,
     MetricsDiscovery::IMetricSet_1_0* mdMetricSet,
@@ -157,7 +160,7 @@ MetricsDiscovery::TTypedValue_1_0 MDH_CalculateMaxValue(
     MetricsDiscovery::TTypedValue_1_0 const* reportValues);
 
 // Maintains the maximum value of a metric.  This could be derived based on an
-// architectural constant (CONSTANT_MAX_VALUE), it oculd be dynamic but
+// architectural constant (CONSTANT_MAX_VALUE), it could be dynamic but
 // computed from other instantaneous metrics (DYNAMIC_MAX_VALUE), or there may
 // be no equation to compute it in which case Update() will track the maximum
 // observed value (UNKNOWN_MAX_VALUE).
