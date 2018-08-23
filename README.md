@@ -40,35 +40,32 @@ SOFTWARE.
 
 [Intel&reg; Metrics Discovery API](https://github.com/intel/metrics-discovery)
 is the Intel graphics driver's API providing access to GPU architecture
-properties, metrics, and override controls.  Understanding these requires
-knowledge of Intel GPU architecture as described in Intel's [Programmer's
-Reference
-Manuals](https://01.org/linuxgraphics/documentation/hardware-specification-prms)
-and/or [Graphics Developer
-Guides](https://software.intel.com/en-us/articles/intel-graphics-developers-guides).
+properties, metrics, and override controls.  For more information on Intel GPU
+architecture (which is useful to understand all the metrics) refer to [Intel's
+Graphics Developer
+Guides](https://software.intel.com/en-us/articles/intel-graphics-developers-guides)
+and/or [Intel's Programmer's Reference
+Manuals](https://01.org/linuxgraphics/documentation/hardware-specification-prms).
 
 See [metrics_discovery_helper.h](source/metrics_discovery_helper.h) for
-documentation on how to use this library, as well as the following samples of
-example usage:
+documentation on how to use this library, as well as the following samples:
 
 | Example | Description |
 | - | - |
-| [samples/list_metrics](samples/list_metrics/list_metrics.cpp) | Enumerate all Global Symbols, Overrides, Concurrent Groups, Metric Sets, Metrics, and Information available on the system. |
+| [samples/list_metrics](samples/list_metrics/list_metrics.cpp) | Enumerate all _global symbols_, _overrides_, _concurrent groups_, _metric sets_, _metrics_, and _information_ available on the system. |
 | [samples/periodic_sample](samples/periodic_sample/periodic_sample.cpp) | Demonstrates sampling metrics at a periodic interval. |
 | [samples/range_sample_dx11](samples/range_sample_dx11/range_sample_dx11.cpp) | Demonstrates sampling metrics around a range of DX11 commands. |
 
-Metrics are organized into a hierarchy of "sets" within "concurrent groups".
-Within each concurrent group, you can only activate a single metric set at a
-time.  However, one metric set can be active from each concurrent group at the
-same time.
+Metrics are organized into a hierarchy of _metric sets_ within _concurrent
+groups_.  Within each concurrent group, you can only activate a single metric
+set at a time.  However, one metric set can be active from each concurrent
+group at the same time.
 
 Particular metrics are architecture specific, and may not be available on other
-GPUs.
-
-The following are example metrics from the "RenderBasic" metric set in the "OA"
-concurrent group available on a Skylake (Gen9) GT2 GPU.  There are more metrics
-available in other metric sets; use the `list_metrics` sample to list all the
-metrics available on your system.
+GPUs.  The following are example metrics from the "RenderBasic" metric set in
+the "OA" concurrent group available on a Skylake (Gen9) GT2 GPU.  There are
+more metrics available in other metric sets; use the `list_metrics` sample to
+list all the metrics available on your system.
 
 | Metric SymbolName | Description |
 | - | - |
