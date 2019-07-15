@@ -20,7 +20,7 @@
     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
     IN THE SOFTWARE.
 
-    File Name:  md_main_SKL_GT3.cpp
+    File Name:  md_main_CFL_GT2.cpp
 
     Abstract:   C++ automated generated file to stack metrics meta data
 
@@ -31,8 +31,8 @@
 
 
 
-#if ((!defined(MD_INCLUDE_SKL_GT3_METRICS) && MD_INCLUDE_ALL_METRICS) || MD_INCLUDE_SKL_GT3_METRICS)
-TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
+#if ((!defined(MD_INCLUDE_CFL_GT2_METRICS) && MD_INCLUDE_ALL_METRICS) || MD_INCLUDE_CFL_GT2_METRICS)
+TCompletionCode CreateObjectTreeCFL_GT2_OA( CConcurrentGroup* aGroup )
 {
     MD_LOG_ENTER();
     MD_CHECK_PTR_RET(g_MetricsDevice, CC_ERROR_GENERAL);
@@ -44,11 +44,11 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
     const char*       availabilityEquation = NULL;
     uint32_t          platformMask = 0;
   
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
         aSet = aGroup->AddMetricSet( "RenderBasic", "Render Metrics Basic Gen9", API_TYPE_OGL|API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId("GPAV", 0, 0x40000000, 0x80000203, 0, 0,
@@ -520,8 +520,8 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
             METRIC_TYPE_EVENT, RESULT_UINT64, "messages", 0, 0, HW_UNIT_GPU, availabilityEquation, NULL, NULL );
         if( aMetric )
         {
-            MD_CHECK_CC( aMetric->SetSnapshotReportReadEquation( "dw@0xd0 dw@0xd4 UADD 8 UMUL" ));
-            MD_CHECK_CC( aMetric->SetDeltaReportReadEquation( "qw@0x150 qw@0x158 UADD 8 UMUL" ));
+            MD_CHECK_CC( aMetric->SetSnapshotReportReadEquation( "dw@0xd0 8 UMUL" ));
+            MD_CHECK_CC( aMetric->SetDeltaReportReadEquation( "qw@0x150 8 UMUL" ));
             MD_CHECK_CC( aMetric->SetSnapshotReportDeltaFunction( "DELTA 32" ));
         }
 
@@ -860,11 +860,10 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x166C01E0, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x12170280, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x12370280, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x16EC01E0, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x11930317, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x159303DF, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x3F900003, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x1A4E0380, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x1A4E0080, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0A6C0053, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x106C0000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x1C6C0000, REGISTER_TYPE_NOA ));
@@ -874,16 +873,14 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x042F1000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x004C4000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0A4C8400, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0C4C0002, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x000D2000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x060D8000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x080DA000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0A0DA000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0A0D2000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0C0F0400, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0E0F6600, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x100F0001, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x002C8000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x162CA200, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x162C2200, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x062D8000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x082D8000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x00133000, REGISTER_TYPE_NOA ));
@@ -896,16 +893,6 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x06370800, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x08370840, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x10370000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x1ACE0200, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0AEC5300, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x10EC0000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x1CEC0000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0A9B8000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x1C9C0002, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0CCC0002, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0A8D8000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x108F0001, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x16AC8000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0D933031, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0F933E3F, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x01933D00, REGISTER_TYPE_NOA ));
@@ -925,29 +912,29 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x17908000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x19908000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x1B908000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x1190003F, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x51907710, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x419020A0, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x55901515, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x45900529, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x47901025, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x57907770, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x49902100, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x1190001F, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x51904400, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x41900020, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x55900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x45900C21, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x47900061, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x57904440, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x49900000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x37900000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x33900000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x4B900108, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x59900007, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x43902108, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x53907777, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x4B900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x59900004, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x43900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x53904444, REGISTER_TYPE_NOA ));
   
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
         aSet = aGroup->AddMetricSet( "ComputeBasic", "Compute Metrics Basic Gen9", API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId("GPAV", 0, 0x40000000, 0x80000203, 0, 0,
@@ -1641,24 +1628,24 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x51900000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x41900800, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x55900000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x45900863, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x45900821, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x47900802, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x57900000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x49900802, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x33900000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x4B900002, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x59900000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x43900C62, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x53903333, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x43900422, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x53904444, REGISTER_TYPE_NOA ));
   
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
         aSet = aGroup->AddMetricSet( "RenderPipeProfile", "Render Metrics for 3D Pipeline Profile Gen9", API_TYPE_OGL|API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-           GPU_RENDER, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+           GPU_RENDER, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId("GPAV", 0, 0x40000000, 0x80000203, 0, 0,
@@ -2442,28 +2429,28 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x19908000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x1B904000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x1190C080, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x51901150, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x41901400, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x55905111, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x45901400, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x479004A5, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x57903455, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x49900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x51900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x41900440, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x55900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x45900400, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x47900C21, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x57900400, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x49900042, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x37900000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x33900000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x4B9000A0, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x59900001, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x43900005, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x53900455, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x4B900024, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x59900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x43900841, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x53900400, REGISTER_TYPE_NOA ));
   
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
         aSet = aGroup->AddMetricSet( "MemoryReads", "Memory Reads Distribution Gen9", API_TYPE_OGL|API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId("GPAV", 0, 0x40000000, 0x80000203, 0, 0,
@@ -3168,11 +3155,11 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
         aSet = aGroup->AddMetricSet( "MemoryWrites", "Memory Writes Distribution Gen9", API_TYPE_OGL|API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId("GPAV", 0, 0x40000000, 0x80000203, 0, 0,
@@ -3877,11 +3864,11 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
         aSet = aGroup->AddMetricSet( "ComputeExtended", "Compute Metrics Extended Gen9", API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-           GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+           GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId(NULL, 0, 0x40000000, 0x80000203, 0, 0,
@@ -4560,11 +4547,11 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
         aSet = aGroup->AddMetricSet( "ComputeL3Cache", "Compute Metrics L3 Cache Gen9", API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId("GPAV", 0, 0x40000000, 0x80000203, 0, 0,
@@ -5474,24 +5461,24 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x51900000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x41900000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x55900000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x45900063, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x45900021, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x47900000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x37900000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x33900000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x57900000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x4B900000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x59900000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x53903333, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x43900840, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x53904444, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x43900000, REGISTER_TYPE_NOA ));
   
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
         aSet = aGroup->AddMetricSet( "HDCAndSF", "Metric set HDCAndSF", API_TYPE_OGL|API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId("GPAV", 0, 0x40000000, 0x80000203, 0, 0,
@@ -6193,8 +6180,8 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x31904000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x1190FC00, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x37900000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x59900005, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x4B900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x59900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x4B900040, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x51900000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x41900800, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x43900842, REGISTER_TYPE_NOA ));
@@ -6205,11 +6192,11 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
         aSet = aGroup->AddMetricSet( "L3_1", "Metric set L3_1", API_TYPE_OGL|API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId("GPAV", 0, 0x40000000, 0x80000203, 0, 0,
@@ -6954,11 +6941,11 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
         aSet = aGroup->AddMetricSet( "L3_2", "Metric set L3_2", API_TYPE_OGL|API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId("GPAV", 0, 0x40000000, 0x80000203, 0, 0,
@@ -7634,11 +7621,11 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
         aSet = aGroup->AddMetricSet( "L3_3", "Metric set L3_3", API_TYPE_OGL|API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId("GPAV", 0, 0x40000000, 0x80000203, 0, 0,
@@ -8313,11 +8300,11 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
         aSet = aGroup->AddMetricSet( "RasterizerAndPixelBackend", "Metric set RasterizerAndPixelBackend", API_TYPE_OGL|API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId("GPAV", 0, 0x40000000, 0x80000203, 0, 0,
@@ -9027,11 +9014,11 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
         aSet = aGroup->AddMetricSet( "Sampler", "Metric set Sampler", API_TYPE_OGL|API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId("GPAV", 0, 0x40000000, 0x80000203, 0, 0,
@@ -9798,11 +9785,11 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
         aSet = aGroup->AddMetricSet( "TDL_1", "Metric set TDL_1", API_TYPE_OGL|API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId("GPAV", 0, 0x40000000, 0x80000203, 0, 0,
@@ -10574,11 +10561,11 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
         aSet = aGroup->AddMetricSet( "TDL_2", "Metric set TDL_2", API_TYPE_OGL|API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId("GPAV", 0, 0x40000000, 0x80000203, 0, 0,
@@ -11312,11 +11299,11 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
         aSet = aGroup->AddMetricSet( "ComputeExtra", "Compute Metrics Extra Gen9", API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId("GPAV", 0, 0x40000000, 0x80000203, 0, 0,
@@ -11378,8 +11365,8 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
             METRIC_TYPE_DURATION, RESULT_FLOAT, "percent", 0, 0, HW_UNIT_GPU, availabilityEquation, NULL, NULL );
         if( aMetric )
         {
-            MD_CHECK_CC( aMetric->SetSnapshotReportReadEquation( "dw@0xf4 dw@0xf8 FADD dw@0xfc FADD dw@0xe8 FADD dw@0xec FADD dw@0xf0 FADD 8 FMUL" ));
-            MD_CHECK_CC( aMetric->SetDeltaReportReadEquation( "qw@0x198 qw@0x1a0 FADD qw@0x1a8 FADD qw@0x180 FADD qw@0x188 FADD qw@0x190 FADD 8 FMUL" ));
+            MD_CHECK_CC( aMetric->SetSnapshotReportReadEquation( "dw@0xfc dw@0xf8 FADD dw@0xf4 FADD 8 FMUL" ));
+            MD_CHECK_CC( aMetric->SetDeltaReportReadEquation( "qw@0x1a8 qw@0x1a0 FADD qw@0x198 FADD 8 FMUL" ));
             MD_CHECK_CC( aMetric->SetNormalizationEquation( "$Fpu1Active $Self FADD 100 FMUL $EuCoresTotalCount FDIV $GpuCoreClocks FDIV" ));
             MD_CHECK_CC( aMetric->SetSnapshotReportDeltaFunction( "DELTA 32" ));
             MD_CHECK_CC( aMetric->SetMaxValueEquation( "100" ));
@@ -11484,84 +11471,60 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         }
 
         MD_CHECK_CC( aSet->AddStartRegisterSet( 0, 0 ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009840, 0x00000080, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x121203E0, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x123203E0, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x125203E0, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x129203E0, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x12B203E0, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x12D203E0, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x024EC000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x044EC000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x064EC000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x022F4000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x084CA000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0A4C0042, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x000D8000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x020DA000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x040DA000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x060D2000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0C0F5000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0E0F006D, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x022C8000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x042C8000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x062C8000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0C2C8000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x042D8000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x06104000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x06114000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x06120033, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x00120000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x06131000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x04308000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x04318000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x04321980, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x00320000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x04334000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x04504000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x04514000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x04520033, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x00520000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x04531000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x00AF8000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0ACC0001, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x008D8000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x028DA000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0C8FB000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x0E8F0001, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x06AC8000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x02AD4000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x02908000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x02918000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x02921980, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x00920000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x02934000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x02B04000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x02B14000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x02B20033, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x00B20000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x02B31000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x00D08000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x00D18000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x00D21980, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x00D34000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x1190FC00, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x37900000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x51900000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x41900C00, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x43900402, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x53901550, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x45900080, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x33900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9840, 0x00000080, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x121203e0, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x123203e0, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x125203e0, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x022f4000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0a4c0040, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x040da000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x060d2000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0e0f006c, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0c2c8000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x042d8000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x06104000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x06114000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x06120033, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x00120000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x06131000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x04308000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x04318000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x04321980, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x00320000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x04334000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x04504000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x04514000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x04520033, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x00520000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x04531000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x1190e000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x37900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x53900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x43900c00, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x45900002, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x33900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0xe458, 0x00001000, REGISTER_TYPE_FLEX ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0xe558, 0x00003002, REGISTER_TYPE_FLEX ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0xe658, 0x00005004, REGISTER_TYPE_FLEX ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0xe758, 0x00011010, REGISTER_TYPE_FLEX ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0xe45c, 0x00050012, REGISTER_TYPE_FLEX ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0xe55c, 0x00052051, REGISTER_TYPE_FLEX ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0xe65c, 0x00000008, REGISTER_TYPE_FLEX ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x2740, 0x00000000, REGISTER_TYPE_OA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x2744, 0x00800000, REGISTER_TYPE_OA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x2710, 0x00000000, REGISTER_TYPE_OA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x2714, 0x00800000, REGISTER_TYPE_OA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x2720, 0x00000000, REGISTER_TYPE_OA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x2724, 0x00800000, REGISTER_TYPE_OA ));
   
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
         aSet = aGroup->AddMetricSet( "VMEPipe", "Media Vme Pipe Gen9", API_TYPE_IOSTREAM,
-           GPU_MEDIA, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+           GPU_MEDIA, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId("GPAV", 0, 0x40000000, 0x80000203, 0, 0,
@@ -11802,29 +11765,28 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x161a00c0, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x12180240, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x14180002, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x149a5800, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x169a00c0, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x12980240, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x14980002, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x1a4e3fc0, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x143a5800, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x163a00c0, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x12380240, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x14380002, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x002f1000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x022f8000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x042f3000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x004c4000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0a4c9500, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0c4c002a, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0a4c1500, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x000d2000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x060d8000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x080da000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0a0da000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0c0da000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0c0f0400, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0e0f5500, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x100f0015, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0e0f9500, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x100f002a, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x002c8000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0e2c8000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x162caa00, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x182c000a, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x162c0a00, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0a2dc000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0c2dc000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x04193000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x081a28c1, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x001a0000, REGISTER_TYPE_NOA ));
@@ -11839,35 +11801,25 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x08180000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x02180000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x04183000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x04afc000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x06af3000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0acc4000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0ccc0015, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0a8da000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0c8da000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0e8f4000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x108f0015, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x16aca000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x18ac000a, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x06993000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0c9a28c1, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x009a0000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0a93f000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0c93f000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0a97a000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0c97a000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0a980977, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x08980000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x04980000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x06983000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x06393000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0c3a28c1, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x003a0000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0a33f000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0c33f000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0a37a000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0c37a000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0a380977, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x08380000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x04380000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x06383000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x119000ff, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x51900050, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x41900000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x55900115, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x45900000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x47900884, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x51900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x41900040, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x55900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x45900800, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x47901000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x57900000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x49900002, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x49900844, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x37900000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x33900000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x2740, 0x00000000, REGISTER_TYPE_OA ));
@@ -11893,11 +11845,11 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
         aSet = aGroup->AddMetricSet( "GpuBusyness", "Gpu Rings Busyness", API_TYPE_OGL|API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-           GPU_RENDER|GPU_COMPUTE|GPU_MEDIA|GPU_GENERIC, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+           GPU_RENDER|GPU_COMPUTE|GPU_MEDIA|GPU_GENERIC, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId("GPAV", 0, 0x40000000, 0x80000203, 0, 0,
@@ -11967,8 +11919,8 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         }
 
         availabilityEquation = NULL;
-        aMetric = aSet->AddMetric( "Vdbox1Busy", "Vdbox1 Ring Busy",
-            "The percentage of time when Vdbox1 command streamer was busy.",
+        aMetric = aSet->AddMetric( "VeboxBusy", "Vebox Ring Busy",
+            "The percentage of time when vebox command streamer was busy.",
             "GPU", (METRIC_GROUP_NAME_ID_GPU * 0x1000000), USAGE_FLAG_SYSTEM|USAGE_FLAG_FRAME|USAGE_FLAG_BATCH, API_TYPE_OGL|API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
             METRIC_TYPE_DURATION, RESULT_FLOAT, "percent", 0, 0, HW_UNIT_GPU, availabilityEquation, NULL, NULL );
         if( aMetric )
@@ -11981,28 +11933,14 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         }
 
         availabilityEquation = NULL;
-        aMetric = aSet->AddMetric( "VeboxBusy", "Vebox Ring Busy",
-            "The percentage of time when vebox command streamer was busy.",
-            "GPU", (METRIC_GROUP_NAME_ID_GPU * 0x1000000), USAGE_FLAG_SYSTEM|USAGE_FLAG_FRAME|USAGE_FLAG_BATCH, API_TYPE_OGL|API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-            METRIC_TYPE_DURATION, RESULT_FLOAT, "percent", 0, 0, HW_UNIT_GPU, availabilityEquation, NULL, NULL );
-        if( aMetric )
-        {
-            MD_CHECK_CC( aMetric->SetSnapshotReportReadEquation( "dw@0xf0" ));
-            MD_CHECK_CC( aMetric->SetDeltaReportReadEquation( "qw@0x190" ));
-            MD_CHECK_CC( aMetric->SetNormalizationEquation( "GpuDuration" ));
-            MD_CHECK_CC( aMetric->SetSnapshotReportDeltaFunction( "DELTA 32" ));
-            MD_CHECK_CC( aMetric->SetMaxValueEquation( "100" ));
-        }
-
-        availabilityEquation = NULL;
         aMetric = aSet->AddMetric( "BlitterBusy", "Blitter Ring Busy",
             "The percentage of time when blitter command streamer was busy.",
             "GPU", (METRIC_GROUP_NAME_ID_GPU * 0x1000000), USAGE_FLAG_SYSTEM|USAGE_FLAG_FRAME|USAGE_FLAG_BATCH, API_TYPE_OGL|API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
             METRIC_TYPE_DURATION, RESULT_FLOAT, "percent", 0, 0, HW_UNIT_GPU, availabilityEquation, NULL, NULL );
         if( aMetric )
         {
-            MD_CHECK_CC( aMetric->SetSnapshotReportReadEquation( "dw@0xec" ));
-            MD_CHECK_CC( aMetric->SetDeltaReportReadEquation( "qw@0x188" ));
+            MD_CHECK_CC( aMetric->SetSnapshotReportReadEquation( "dw@0xf0" ));
+            MD_CHECK_CC( aMetric->SetDeltaReportReadEquation( "qw@0x190" ));
             MD_CHECK_CC( aMetric->SetNormalizationEquation( "GpuDuration" ));
             MD_CHECK_CC( aMetric->SetSnapshotReportDeltaFunction( "DELTA 32" ));
             MD_CHECK_CC( aMetric->SetMaxValueEquation( "100" ));
@@ -12122,46 +12060,37 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
 
         MD_CHECK_CC( aSet->AddStartRegisterSet( 0, 0 ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9840, 0x00000080, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x21d05800, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x13805800, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x05962c25, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x05962c00, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x19950016, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x21c05800, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x09d000a5, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x11d00000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x05d00000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x09d54000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x19c05800, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x07800035, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x11800000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x1d810400, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x07960025, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x21960000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0996c000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0b964000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x19938000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x1b930068, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x15948000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x1b94000c, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x03957500, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x1b930062, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x17948000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x1b940008, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x05950075, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x1d950000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x17950000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x07e54000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x07928000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x03988000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x17908000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x19904000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x1b908000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x09924000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x05982000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x19908000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x1b904000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x1d908000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x1f908000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x09978000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0bc000a5, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x11c00000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x05c00000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x05c08500, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x25c00000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x1bc00000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x0bc54000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x11900000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x37900000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x51900000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x43900463, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x53900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x43900c60, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x45900040, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x33900000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x2740, 0x00000000, REGISTER_TYPE_OA ));
@@ -12169,17 +12098,17 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x2714, 0x10800000, REGISTER_TYPE_OA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x2720, 0x00000000, REGISTER_TYPE_OA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x2724, 0x00800000, REGISTER_TYPE_OA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x2770, 0x0007c000, REGISTER_TYPE_OA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x2774, 0x000007ff, REGISTER_TYPE_OA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x2770, 0x00078000, REGISTER_TYPE_OA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x2774, 0x00000fff, REGISTER_TYPE_OA ));
   
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
-        aSet = aGroup->AddMetricSet( "TestOa", "MDAPI testing set Gen9", API_TYPE_OGL|API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+        aSet = aGroup->AddMetricSet( "TestOa", "MDAPI testing set Gen9.5", API_TYPE_OGL|API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
+           GPU_RENDER|GPU_COMPUTE, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId("GPAV", 0, 0x40000000, 0x80000203, 0, 0,
@@ -12454,6 +12383,19 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         }
 
         MD_CHECK_CC( aSet->AddStartRegisterSet( 0, 0 ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9840, 0x00000080, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x11810000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x07810013, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x1f810000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x1d810000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x1b930040, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x07e54000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x1f908000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x11900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x37900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x53900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x45900000, REGISTER_TYPE_NOA ));
+        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x9888, 0x33900000, REGISTER_TYPE_NOA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x2740, 0x00000000, REGISTER_TYPE_OA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x2744, 0x00800000, REGISTER_TYPE_OA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x2714, 0xf0800000, REGISTER_TYPE_OA ));
@@ -12476,28 +12418,15 @@ TCompletionCode CreateObjectTreeSKL_GT3_OA( CConcurrentGroup* aGroup )
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x27a4, 0x0000ffe7, REGISTER_TYPE_OA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x27a8, 0x00100001, REGISTER_TYPE_OA ));
         MD_CHECK_CC( aSet->AddStartConfigRegister( 0x27ac, 0x0000ffe7, REGISTER_TYPE_OA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009840, 0x00000080, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x11810000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x07810013, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x1F810000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x1D810000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x1B930040, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x07E54000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x1F908000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x11900000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x37900000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x53900000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x45900000, REGISTER_TYPE_NOA ));
-        MD_CHECK_CC( aSet->AddStartConfigRegister( 0x00009888, 0x33900000, REGISTER_TYPE_NOA ));
   
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_SKL;
-    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT3 ) )
+    platformMask = PLATFORM_CFL;
+    if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask, GT_TYPE_GT2 ) )
     {
         aSet = aGroup->AddMetricSet( "PMA_Stall", "Metric set PMA Stall", API_TYPE_OGL|API_TYPE_OGL4_X|API_TYPE_OGL4_X|API_TYPE_IOSTREAM,
-           GPU_RENDER, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT3 );
+           GPU_RENDER, 256, 672, OA_REPORT_TYPE_256B_A45_NOA16, platformMask, GT_TYPE_GT2 );
         MD_CHECK_PTR( aSet );
         
         MD_CHECK_CC( aSet->SetApiSpecificId("GPAV", 0, 0x40000000, 0x80000203, 0, 0,

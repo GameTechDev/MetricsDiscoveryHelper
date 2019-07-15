@@ -1,6 +1,6 @@
 /*****************************************************************************\
 
-    Copyright © 2018, Intel Corporation
+    Copyright © 2019, Intel Corporation
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the "Software"),
@@ -47,7 +47,11 @@ namespace MetricsDiscovery
         PLATFORM_BXT = 1 << 10 /*GENERATION_BXT*/,
         // 11 reserved
         PLATFORM_KBL = 1 << 12 /*GENERATION_KBL*/,
-        // 13-18 reserved
+        PLATFORM_GLK = 1 << 13 /*GENERATION_GLK*/,
+        PLATFORM_ICL = 1 << 14 /*GENERATION_ICL*/,
+        // 15-17 reserved
+        PLATFORM_CFL = 1 << 18 /*GENERATION_CFL*/,
+        // 19 reserved
         // ...
         PLATFORM_ALL = 0xFFFFFFFF,
     } TPlatformType;

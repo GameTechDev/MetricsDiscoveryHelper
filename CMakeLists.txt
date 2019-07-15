@@ -1,4 +1,4 @@
-# Copyright © 2018, Intel Corporation
+# Copyright © 2019, Intel Corporation
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -56,7 +56,8 @@ include_directories (
     # external
     ${BS_DIR_EXTERNAL}/mesa/include
     ${BS_DIR_EXTERNAL}/mesa/src
-    ${BS_DIR_EXTERNAL}/mesa/src/intel/common
+    ${BS_DIR_EXTERNAL}/mesa/src/util
+    ${BS_DIR_EXTERNAL}/mesa/src/intel/dev
     ${BS_DIR_EXTERNAL}/drm
     # mdapi core
     ${BS_DIR_INSTRUMENTATION}/metrics_discovery/linux/inc
@@ -95,6 +96,10 @@ set (LOCAL_SRC_FILES ${LOCAL_SRC_FILES}
     ${BS_DIR_INSTRUMENTATION}/metrics_discovery/codegen/md_main_SKL_GT4.cpp
     ${BS_DIR_INSTRUMENTATION}/metrics_discovery/codegen/md_main_KBL_GT2.cpp
     ${BS_DIR_INSTRUMENTATION}/metrics_discovery/codegen/md_main_KBL_GT3.cpp
+    ${BS_DIR_INSTRUMENTATION}/metrics_discovery/codegen/md_main_CFL_GT2.cpp
+    ${BS_DIR_INSTRUMENTATION}/metrics_discovery/codegen/md_main_CFL_GT3.cpp
+    ${BS_DIR_INSTRUMENTATION}/metrics_discovery/codegen/md_main_GLK.cpp
+    ${BS_DIR_INSTRUMENTATION}/metrics_discovery/codegen/md_main_ICL.cpp
     ${BS_DIR_INSTRUMENTATION}/metrics_discovery/codegen/md_main.cpp
     # mdapi core
     ${BS_DIR_INSTRUMENTATION}/metrics_discovery/common/md_utils.cpp
@@ -103,9 +108,10 @@ set (LOCAL_SRC_FILES ${LOCAL_SRC_FILES}
     ${BS_DIR_INSTRUMENTATION}/metrics_discovery/linux/md_driver_ifc_linux_perf.cpp
     # utils
     ${BS_DIR_INSTRUMENTATION}/utils/common/iu_debug.c
-    ${BS_DIR_INSTRUMENTATION}/utils/linux/iu_std_linux.cpp
+    ${BS_DIR_INSTRUMENTATION}/utils/linux/iu_std.cpp
+    ${BS_DIR_INSTRUMENTATION}/utils/linux/iu_os.cpp
     # external
-    ${BS_DIR_EXTERNAL}/mesa/src/intel/common/gen_device_info.c
+    ${BS_DIR_EXTERNAL}/mesa/src/intel/dev/gen_device_info.c
 )
 
 # mdapi internal files
@@ -153,13 +159,17 @@ if ("${PLATFORM}" STREQUAL "linux")
     # linux
     add_definitions(-fdiagnostics-color=auto) # color=auto only to colorize compiler output
     add_definitions(-fstack-protector)
+    add_definitions(-fvisibility=hidden)      # to disable exporting internal symbols (by default gcc exports all symbols)
     add_definitions(-Wno-unused)
     add_definitions(-Wno-strict-aliasing)
     add_definitions(-Wno-unknown-pragmas)
     add_definitions(-Wno-comment)
     add_definitions(-msse)
-    if ("${BUILD_TYPE}" STREQUAL "release")
+    if ("${BUILD_TYPE}" STREQUAL "release" OR
+        "${BUILD_TYPE}" STREQUAL "release-internal")
         add_definitions(-Wformat-security)
+    elseif ("${BUILD_TYPE}" STREQUAL "debug")
+        add_definitions(-g)
     endif ()
     # C++ specific
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-reorder")
@@ -172,9 +182,12 @@ add_definitions(-DMD_USE_PERF)
 add_definitions(-DMETRICS_DISCOVERY)
 add_definitions(-fno-inline)
 add_definitions(-Wall)
+
 # to enable x86 build on x64 host
 if ("${ARCH}" STREQUAL "32")
+    # flag is needed for both, compiler and linker
     add_definitions(-m32)
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -m32")
 endif ()
 
 #################################################################################

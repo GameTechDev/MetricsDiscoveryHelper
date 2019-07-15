@@ -1,6 +1,6 @@
 /*****************************************************************************\
 
-    Copyright © 2018, Intel Corporation
+    Copyright © 2019, Intel Corporation
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the "Software"),
@@ -74,6 +74,21 @@ typedef enum EGfxGtType
 
 /*****************************************************************************\
 
+Struct:
+    TPerfCapabilities
+
+Description:
+    A structure holding information about i915 Perf features support in kernel.
+
+\*****************************************************************************/
+typedef struct SPerfCapabilities
+{
+    bool IsOaInterruptSupported;        // Available since i915 Perf revision '2'
+    bool IsFlushPerfStreamSupported;    // Available since i915 Perf revision '2'
+} TPerfCapabilities;
+
+/*****************************************************************************\
+
 Class:
     CSemaphore
 
@@ -121,7 +136,7 @@ public: // Methods
     virtual const char*             GetDeviceName();
     virtual bool                    GetNeedSupportEnable();
     virtual TCompletionCode         SendSupportEnableEscape( bool enable );
-    virtual TCompletionCode         SendDeviceInfoParamEscape( GTDI_DEVICE_PARAM param, GTDIDeviceInfoParamOut* out );
+    virtual TCompletionCode         SendDeviceInfoParamEscape( GTDI_DEVICE_PARAM param, GTDIDeviceInfoParamExtOut* out );
     virtual TCompletionCode         SendPmRegsConfig( TRegister** regVector, uint32_t regCount, uint32_t apiMask );
     virtual TCompletionCode         SendReadRegsConfig( TRegister** regVector, uint32_t regCount, uint32_t apiMask );
     virtual TCompletionCode         GetPmRegsConfigHandles( uint32_t configId, uint32_t* oaConfigHandle, uint32_t* gpConfigHandle, uint32_t* rrConfigHandle );
@@ -142,6 +157,8 @@ public: // Methods
     virtual TCompletionCode         ReadIoStream( TStreamType streamType, IMetricSet_1_0* metricSet, char* reportData, uint32_t* reportsCount, uint32_t readFlags,
         uint32_t* frequency, GTDIReadCounterStreamExceptions* exceptions );
     virtual TCompletionCode         CloseIoStream( TStreamType streamType, void** openStreamEventHandle, const char* concurrentGroupName, CMetricSet* metricSet );
+    virtual TCompletionCode         HandleIoStreamExceptions( const char* concurrentGroupName, CMetricSet* metricSet, uint32_t processId,
+        uint32_t* reportCount, GTDIReadCounterStreamExceptions* exceptions );
     virtual TCompletionCode         WaitForIoStreamReports( TStreamType streamType, uint32_t milliseconds, void* streamEventHandle );
     virtual bool                    IsIoMeasurementInfoAvailable( TIoMeasurementInfoType ioMeasurementInfoType );
 
@@ -157,9 +174,13 @@ protected:
 
 private:
     // Perf
+    void            ReadPerfCapabilities();
+    void            ResetPerfCapabilities();
+    void            PrintPerfCapabilities();
     TCompletionCode OpenPerfStream( uint32_t perfMetricSetId, uint32_t perfReportType, uint32_t timerPeriodExponent );
     TCompletionCode ReadPerfStream( uint32_t oaReportSize, uint32_t reportsToRead, char* reportData, uint32_t* readBytes, bool* reportLostOccured );
     TCompletionCode ClosePerfStream();
+    TCompletionCode FlushPerfStream();
     TCompletionCode WaitForPerfStreamReports( uint32_t timeoutMs );
     TCompletionCode AddPerfConfig( TRegister** regVector, uint32_t regCount, const char* requestedGuid, int32_t* addedConfigId );
     TCompletionCode RemovePerfConfig( int32_t perfConfigId );
@@ -183,13 +204,14 @@ private:
 
     // IOCTLs
     int32_t         SendIoctl( int32_t drmFd, uint32_t request, void* argument );
-    TCompletionCode SendGetParamIoctl( int32_t drmFd, uint32_t paramId, GTDIDeviceInfoParamOut* outValue );
+    TCompletionCode SendGetParamIoctl( int32_t drmFd, uint32_t paramId, GTDIDeviceInfoParamExtOut* outValue );
     TCompletionCode SendGetParamIoctl( int32_t drmFd, uint32_t paramId, int32_t* outValue );
 
     // Device info params
     TCompletionCode GetMesaDeviceInfo( const gen_device_info** mesaDeviceInfo );
     TCompletionCode GetDeviceId( int32_t* deviceId );
     TCompletionCode GetInstrPlatformId( GTDI_PLATFORM_INDEX* instrPlatformId );
+    TCompletionCode GetPerfRevision( int32_t* perfRevision );
     TCompletionCode GetGpuFrequencyInfo( uint64_t* minFrequency, uint64_t* maxFrequency, uint64_t* actFrequency, uint64_t* boostFrequency );
     TCompletionCode GetGpuTimestampFrequency( uint64_t* gpuTimestampFrequency );
     TCompletionCode GetGpuTimestampPeriodNs( uint64_t* gpuTimestampPeriodNs );
@@ -210,6 +232,9 @@ private:
 private: // Variables
     int32_t                      m_DrmFd;                       // DRM file descriptor, used mostly for sending IOCTLs
     int32_t                      m_DrmCardNumber;               // Used for SysFs reads / writes
+    TPerfCapabilities            m_PerfCapabilities;            // Information about i915 Perf features supported in current kernel
+
+    // Stream
     int32_t                      m_PerfStreamFd;                // Opened Perf stream file descriptor
     int32_t                      m_PerfStreamConfigId;          // Perf configuration ID used for opening Perf stream, needed for config removal
     std::vector<unsigned char>   m_PerfStreamReportData;        // Preallocated buffer for reading data from Perf stream to avoid new allocations on every read
