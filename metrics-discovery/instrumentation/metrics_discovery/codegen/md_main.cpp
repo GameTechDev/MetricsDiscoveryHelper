@@ -1,6 +1,6 @@
 /*****************************************************************************\
 
-    Copyright © 2018, Intel Corporation
+    Copyright © 2019, Intel Corporation
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the "Software"),
@@ -74,6 +74,26 @@ CMetricsDevice* g_MetricsDevice = NULL;
     TCompletionCode CreateObjectTreeKBL_GT3_OA(CConcurrentGroup* aGroup);
 #endif
 
+#if (!defined(MD_INCLUDE_CFL_GT2_METRICS) && MD_INCLUDE_ALL_METRICS) || MD_INCLUDE_CFL_GT2_METRICS
+#define MD_CALL_CFL_GT2_METRICS 1
+    TCompletionCode CreateObjectTreeCFL_GT2_OA(CConcurrentGroup* aGroup);
+#endif
+
+#if (!defined(MD_INCLUDE_CFL_GT3_METRICS) && MD_INCLUDE_ALL_METRICS) || MD_INCLUDE_CFL_GT3_METRICS
+#define MD_CALL_CFL_GT3_METRICS 1
+    TCompletionCode CreateObjectTreeCFL_GT3_OA(CConcurrentGroup* aGroup);
+#endif
+
+#if (!defined(MD_INCLUDE_GLK_METRICS) && MD_INCLUDE_ALL_METRICS) || MD_INCLUDE_GLK_METRICS
+#define MD_CALL_GLK_METRICS 1
+    TCompletionCode CreateObjectTreeGLK_OA(CConcurrentGroup* aGroup);
+#endif
+
+#if (!defined(MD_INCLUDE_ICL_METRICS) && MD_INCLUDE_ALL_METRICS) || MD_INCLUDE_ICL_METRICS
+#define MD_CALL_ICL_METRICS 1
+    TCompletionCode CreateObjectTreeICL_OA(CConcurrentGroup* aGroup);
+#endif
+
 uint32_t        g_mdRefCounter       = 0;
 void*           g_OpenCloseSemaphore = NULL;
 
@@ -93,7 +113,7 @@ TCompletionCode AddGlobalSymbols( CSymbolSet* globalSymbolSet )
   
     globalSymbolSet->AddSymbolUINT32( "EuThreadsCount", 8, SYMBOL_TYPE_DETECT );
   
-    globalSymbolSet->AddSymbolUINT32( "SubsliceMask", 0x1FF, SYMBOL_TYPE_DETECT );
+    globalSymbolSet->AddSymbolUINT64( "SubsliceMask", 0x1FF, SYMBOL_TYPE_DETECT );
   
     globalSymbolSet->AddSymbolUINT32( "SliceMask", 0x7, SYMBOL_TYPE_DETECT );
   
@@ -165,7 +185,7 @@ TCompletionCode CreateObjectTree( IMetricsDevice_1_5** metricsDevice )
     aGroup = g_MetricsDevice->AddConcurrentGroup( "OcclusionQueryStats", "Occlusion Query Statistics", MEASUREMENT_TYPE_DELTA_QUERY );
     MD_CHECK_PTR( aGroup );
     
-    platformMask = PLATFORM_HSW|PLATFORM_BDW|PLATFORM_SKL|PLATFORM_BXT|PLATFORM_KBL;
+    platformMask = PLATFORM_HSW|PLATFORM_BDW|PLATFORM_SKL|PLATFORM_BXT|PLATFORM_GLK|PLATFORM_KBL|PLATFORM_CFL|PLATFORM_ICL;
     if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask ) )
     {
         aSet = aGroup->AddMetricSet( "RenderedPixelsStats", "Rendered Pixels Statistics", API_TYPE_OGL4_X,
@@ -189,7 +209,7 @@ TCompletionCode CreateObjectTree( IMetricsDevice_1_5** metricsDevice )
         MD_CHECK_CC( aSet->RefreshConfigRegisters() );
     }
      
-    platformMask = PLATFORM_HSW|PLATFORM_BDW|PLATFORM_SKL|PLATFORM_BXT|PLATFORM_KBL;
+    platformMask = PLATFORM_HSW|PLATFORM_BDW|PLATFORM_SKL|PLATFORM_BXT|PLATFORM_GLK|PLATFORM_KBL|PLATFORM_CFL|PLATFORM_ICL;
     if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask ) )
     {
         aSet = aGroup->AddMetricSet( "RenderedFragmentsStats", "Rendered Fragments Statistics", API_TYPE_OGL|API_TYPE_OGL4_X,
@@ -216,7 +236,7 @@ TCompletionCode CreateObjectTree( IMetricsDevice_1_5** metricsDevice )
     aGroup = g_MetricsDevice->AddConcurrentGroup( "TimestampQuery", "Timestamp Query", MEASUREMENT_TYPE_SNAPSHOT_QUERY );
     MD_CHECK_PTR( aGroup );
     
-    platformMask = PLATFORM_HSW|PLATFORM_BDW|PLATFORM_SKL|PLATFORM_BXT|PLATFORM_KBL;
+    platformMask = PLATFORM_HSW|PLATFORM_BDW|PLATFORM_SKL|PLATFORM_BXT|PLATFORM_GLK|PLATFORM_KBL|PLATFORM_CFL|PLATFORM_ICL;
     if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask ) )
     {
         aSet = aGroup->AddMetricSet( "GPUTimestamp", "GPU Timestamp", API_TYPE_OGL4_X,
@@ -244,7 +264,7 @@ TCompletionCode CreateObjectTree( IMetricsDevice_1_5** metricsDevice )
     aGroup = g_MetricsDevice->AddConcurrentGroup( "PipelineStatistics", "Pipeline Statistics", MEASUREMENT_TYPE_DELTA_QUERY );
     MD_CHECK_PTR( aGroup );
     
-    platformMask = PLATFORM_HSW|PLATFORM_BDW|PLATFORM_SKL|PLATFORM_BXT|PLATFORM_KBL;
+    platformMask = PLATFORM_HSW|PLATFORM_BDW|PLATFORM_SKL|PLATFORM_BXT|PLATFORM_GLK|PLATFORM_KBL|PLATFORM_CFL;
     if( MD_IS_INTERNAL_BUILD || g_MetricsDevice->IsPlatformTypeOf( platformMask ) )
     {
         aSet = aGroup->AddMetricSet( "PipelineStats", "Pipeline Statistics for OGL4", API_TYPE_OGL|API_TYPE_OGL4_X,
@@ -412,6 +432,22 @@ TCompletionCode CreateObjectTree( IMetricsDevice_1_5** metricsDevice )
   
 #if MD_CALL_KBL_GT3_METRICS
     MD_CHECK_CC( CreateObjectTreeKBL_GT3_OA(aGroup) );
+#endif
+  
+#if MD_CALL_CFL_GT2_METRICS
+    MD_CHECK_CC( CreateObjectTreeCFL_GT2_OA(aGroup) );
+#endif
+  
+#if MD_CALL_CFL_GT3_METRICS
+    MD_CHECK_CC( CreateObjectTreeCFL_GT3_OA(aGroup) );
+#endif
+  
+#if MD_CALL_GLK_METRICS
+    MD_CHECK_CC( CreateObjectTreeGLK_OA(aGroup) );
+#endif
+  
+#if MD_CALL_ICL_METRICS
+    MD_CHECK_CC( CreateObjectTreeICL_OA(aGroup) );
 #endif
   
 

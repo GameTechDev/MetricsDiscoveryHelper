@@ -1,6 +1,6 @@
 /*****************************************************************************\
 
-    Copyright © 2018, Intel Corporation
+    Copyright © 2019, Intel Corporation
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the "Software"),
@@ -49,7 +49,11 @@
                                    MD_INCLUDE_SKL_GT4_METRICS || \
                                    MD_INCLUDE_BXT_METRICS || \
                                    MD_INCLUDE_KBL_GT2_METRICS || \
-                                   MD_INCLUDE_KBL_GT3_METRICS) )
+                                   MD_INCLUDE_KBL_GT3_METRICS || \
+                                   MD_INCLUDE_CFL_GT2_METRICS || \
+                                   MD_INCLUDE_CFL_GT3_METRICS || \
+                                   MD_INCLUDE_GLK_METRICS || \
+                                   MD_INCLUDE_ICL_METRICS) )
 
 using namespace MetricsDiscovery;
 using namespace MetricsDiscoveryInternal;

@@ -1,6 +1,6 @@
 /*****************************************************************************\
 
-    Copyright © 2018, Intel Corporation
+    Copyright © 2019, Intel Corporation
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the "Software"),
@@ -244,7 +244,7 @@ Description:
         TCompletionCode   ReadGlobalSymbolsFromFileBuffer( unsigned char** bufferPtr );
         TCompletionCode   ReadConcurrentGroupsFromFileBuffer( unsigned char** bufferPtr, bool isInternalBuild, SMetricsDeviceParams_1_0::SApiVersion* apiVersion );
         TCompletionCode   ReadMetricSetsFromFileBuffer( unsigned char** bufferPtr, CConcurrentGroup* group, bool isInternalBuild, SMetricsDeviceParams_1_0::SApiVersion* apiVersion );
-        TCompletionCode   ReadMetricsFromFileBuffer( unsigned char** bufferPtr, CMetricSet* set, bool isSetDefault );
+        TCompletionCode   ReadMetricsFromFileBuffer( unsigned char** bufferPtr, CMetricSet* set, bool isSetNew );
         TCompletionCode   ReadInformationFromFileBuffer( unsigned char** bufferPtr, CMetricSet* set );
         TCompletionCode   ReadRegistersFromFileBuffer( unsigned char** bufferPtr, CMetricSet* set );
 
@@ -341,7 +341,7 @@ Description:
         CMetricSet*     AddMetricSet( const char* symbolicName, const char* shortName, uint32_t apiMask, uint32_t categoryMask,
             uint32_t snapshotReportSize, uint32_t deltaReportSize, TReportType reportType, uint32_t platformMask,
             uint32_t gtMask = GT_TYPE_ALL, bool isCustom = false );
-        CMetricSet*     GetMetricSetByName( const char* symbolName );
+        CMetricSet*     GetMatchingMetricSet( const char* symbolName, uint32_t platformMask, uint32_t gtMask );
 
         TCompletionCode Lock();
         TCompletionCode Unlock();
@@ -540,6 +540,7 @@ Description:
         // API filtering
         bool                IsApiFilteringMaskValid( uint32_t apiMask );
         void                EnableApiFiltering( uint32_t apiMask, bool enable );
+        void                UpdateMetricIndicesInEquations();
         void                UseApiFilteredVariables( bool enable );
         void                RefreshCachedMetricsAndInformation();
         void                ClearCachedMetricsAndInformation();
@@ -555,7 +556,6 @@ Description:
         uint32_t            MetricGroupNameToId( const char* groupName );
         uint32_t            GetPartialGroupId( char* groupName, uint32_t tokenNo );
         bool                GetStartRegSetHiPriority( uint32_t id, CRegisterSet** registerSet );
-        bool                CheckNoaProgrammingExists( Vector<TRegister*>* regVector );
 
     private: // Variables
         TMetricSetParams_1_4    m_params_1_0;
@@ -713,26 +713,6 @@ Description:
         CMetricsDevice*     m_device;
 
         bool                m_isAvailable;
-    };
-
-/*****************************************************************************\
-
-Class:
-    CEquationElementInternal
-
-Description:
-    Class which represents equation element.
-
-\*****************************************************************************/
-    class CEquationElementInternal
-    {
-    public:
-        CEquationElementInternal();
-        CEquationElementInternal( const CEquationElementInternal& element );
-        CEquationElementInternal& operator = ( const CEquationElementInternal& element );
-
-        TEquationElement_1_0 Element_1_0;
-        char                 SymbolNameInternal[32];
     };
 
 /*****************************************************************************\

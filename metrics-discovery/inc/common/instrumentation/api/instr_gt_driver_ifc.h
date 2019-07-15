@@ -1,6 +1,6 @@
 /*****************************************************************************\
 
-    Copyright © 2018, Intel Corporation
+    Copyright © 2019, Intel Corporation
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the "Software"),
@@ -45,7 +45,12 @@
 /******************************************************************************/
 /* Maximum string length:                                                     */
 /******************************************************************************/
-#define GTDI_PATH_LENGTH    1024
+#define GTDI_PATH_LENGTH 1024
+
+/******************************************************************************/
+/* Maximum array length:                                                      */
+/******************************************************************************/
+#define GTDI_BYTE_ARRAY_LENGTH 2048
 
 /******************************************************************************/
 /* URI size:                                                                  */
@@ -230,8 +235,12 @@ typedef enum
     GTDI_IFC_VERSION_3_31     = GTDI_MAKE_IFC_VER(GTDI_IFC_VERSION_3, 31),  // Slice/Unslice frequencies in SKL+ perf counters queries
     GTDI_IFC_VERSION_3_32     = GTDI_MAKE_IFC_VER(GTDI_IFC_VERSION_3, 32),  // Selective force wake override
     GTDI_IFC_VERSION_3_33     = GTDI_MAKE_IFC_VER(GTDI_IFC_VERSION_3, 33),  // DMA sampling
+    GTDI_IFC_VERSION_3_34     = GTDI_MAKE_IFC_VER(GTDI_IFC_VERSION_3, 34),  // Mid query events info
+    GTDI_IFC_VERSION_3_35     = GTDI_MAKE_IFC_VER(GTDI_IFC_VERSION_3, 35),  // Byte array added to GTDI_DEVICE_PARAM_VALUE_TYPE
+    GTDI_IFC_VERSION_3_36     = GTDI_MAKE_IFC_VER(GTDI_IFC_VERSION_3, 36),  // New exception flags added to GTDI_FNC_READ_COUNTER_STREAM
+
     // ...
-    GTDI_IFC_VERSION_CURRENT  = GTDI_IFC_VERSION_3_33,
+    GTDI_IFC_VERSION_CURRENT  = GTDI_IFC_VERSION_3_36,
     // ...
     GTDI_IFC_VERSION_MAX = 0xFFFFFFFF
 } GTDI_IFC_VERSION;
@@ -329,8 +338,14 @@ typedef enum
     GENERATION_BXT = 10,
     // 11 reserved
     GENERATION_KBL = 12,
-    // 13-18 reserved
+    GENERATION_GLK = 13,
+    GENERATION_ICL = 14,
+    // 15-17 reserved
+    GENERATION_CFL = 18,
+    // 19-20 reserved
     // ...
+    // DO NOT CHANGE ORDER OF THIS ENUM, ADD NEW PLATFORMS AT THE END!
+    // It has to be synchronized with metric_discovery_internal_api.h file.
     GTDI_PLATFORM_MAX = 0xFFFFFFF
 } GTDI_PLATFORM_INDEX;
 
@@ -505,11 +520,12 @@ typedef enum GTDI_DEVICE_PARAM_ENUM
     // Note: This is not implemented on Windows
     GTDI_DEVICE_PARAM_GPU_TIMESTAMP,
 
-    // ...
     GTDI_DEVICE_PARAM_EDRAM_SIZE,
     GTDI_DEVICE_PARAM_LLC_SIZE,
     GTDI_DEVICE_PARAM_L3_SIZE,
     GTDI_DEVICE_PARAM_OA_BUFFER_EDGE_TRIGGERING_OVERRIDE,
+
+    // ...
     GTDI_DEVICE_PARAM_MAX = 0xFFFFFFFF
 
 } GTDI_DEVICE_PARAM;
@@ -536,7 +552,6 @@ typedef struct GTDIDeviceInfoParamInStruct
     GTDI_DEVICE_PARAM       Param;    // Identifies parameter to get
     uint32_t                Slice;    // slice id
     uint32_t                SubSlice; // subslice id
-
 } GTDIDeviceInfoParamIn;
 
 /******************************************************************************/
@@ -548,6 +563,7 @@ typedef enum GTDI_DEVICE_PARAM_VALUE_TYPE_ENUM
     GTDI_DEVICE_PARAM_VALUE_TYPE_UINT64,
     GTDI_DEVICE_PARAM_VALUE_TYPE_FLOAT,
     GTDI_DEVICE_PARAM_VALUE_TYPE_STRING, // Write only
+    GTDI_DEVICE_PARAM_VALUE_TYPE_BYTE_ARRAY,
 } GTDI_DEVICE_PARAM_VALUE_TYPE;
 
 /******************************************************************************/
@@ -574,7 +590,11 @@ typedef struct GTDIDeviceInfoParamExtOutStruct
     GTDI_DEVICE_PARAM_VALUE_TYPE ValueType; // Type of value passed as result
     union
     {
-        wchar_t ValueString[GTDI_PATH_LENGTH];
+        uint32_t ValueUint32;
+        uint64_t ValueUint64;
+        float    ValueFloat;
+        wchar_t  ValueString[GTDI_PATH_LENGTH];
+        uint8_t  ValueByteArray[GTDI_BYTE_ARRAY_LENGTH];
     };
 } GTDIDeviceInfoParamExtOut;
 
@@ -1254,7 +1274,10 @@ typedef struct GTDIReadCounterStreamExceptionsStruct {
     uint32_t ReportLost              : 1;   // Report lost reported by HW. This means that there were some samples lost
                                             // since last Read Stream (not between the first and the last returned sample).
     uint32_t DataOutstanding         : 1;   // Read Stream left some of the newest samples unread.
-    uint32_t Reserved                : 27;
+    uint32_t BufferOverflow          : 1;   // This bit is set when some reports have been overwritten
+    uint32_t BufferOverrun           : 1;   // This means that the buffer is full (n-1 reports)
+    uint32_t CountersOverflow        : 1;   // This means that counters overflows occurred between two consecutive readings
+    uint32_t Reserved                : 24;
 } GTDIReadCounterStreamExceptions;
 
 /******************************************************************************/

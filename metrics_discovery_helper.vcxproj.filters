@@ -25,30 +25,33 @@
     <ClCompile Include="metrics-discovery\instrumentation\utils\common\iu_debug.c">
       <Filter>metrics-discovery</Filter>
     </ClCompile>
-    <ClCompile Include="metrics-discovery\instrumentation\utils\win\iu_std_win.cpp">
+    <ClCompile Include="metrics-discovery\instrumentation\utils\win\iu_os.cpp">
+      <Filter>metrics-discovery</Filter>
+    </ClCompile>
+    <ClCompile Include="metrics-discovery\instrumentation\utils\win\iu_std.cpp">
       <Filter>metrics-discovery</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Headers">
-      <UniqueIdentifier>{58840be4-d7d9-409c-8426-5296da3bc957}</UniqueIdentifier>
-    </Filter>
     <Filter Include="metrics-discovery">
       <UniqueIdentifier>{c673c3cd-ab73-41cb-9f8f-c7a4c5704cb5}</UniqueIdentifier>
     </Filter>
     <Filter Include="metrics_discovery_helper">
       <UniqueIdentifier>{565a4093-b320-4f89-9f23-573e8ebe378e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{58840be4-d7d9-409c-8426-5296da3bc957}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="metrics-discovery\inc\common\instrumentation\api\metrics_discovery_api.h">
-      <Filter>metrics-discovery</Filter>
+      <Filter>include</Filter>
     </CustomBuild>
     <CustomBuild Include="source\metrics_discovery_helper.h">
-      <Filter>metrics_discovery_helper</Filter>
+      <Filter>include</Filter>
     </CustomBuild>
     <CustomBuild Include="source\metrics_discovery_helper_dx11.h">
-      <Filter>metrics_discovery_helper</Filter>
+      <Filter>include</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
