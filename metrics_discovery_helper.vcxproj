@@ -84,6 +84,7 @@
   <PropertyGroup>
     <OutDir>$(ProjectDir)build\lib\$(MyPlatform)-$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)build\obj\$(MyPlatform)-$(Configuration)\$(ProjectName)\</IntDir>
+    <CustomBuildBeforeTargets>ClCompile</CustomBuildBeforeTargets>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -95,6 +96,7 @@
         metrics-discovery\instrumentation\metrics_discovery\common\inc;
         metrics-discovery\instrumentation\utils\common\inc;
         metrics-discovery\instrumentation\utils\linux\inc;
+        $(IntDir);
         %(AdditionalIncludeDirectories)
       </AdditionalIncludeDirectories>
       <ProgramDataBaseFileName>$(OutDir)metrics_discovery_helper.pdb</ProgramDataBaseFileName>
@@ -106,6 +108,12 @@
     <Lib>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
     </Lib>
+    <CustomBuildStep>
+      <Message>Generating version sources</Message>
+      <Command>scripts\generate_version_sources.cmd "$(IntDir)generated\version.h" 0 0</Command>
+      <Outputs>$(IntDir)generated\version.h</Outputs>
+      <TreatOutputAsContent>false</TreatOutputAsContent>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(MyConfiguration)'=='debug'">
     <ClCompile>

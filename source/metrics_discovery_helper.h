@@ -1,5 +1,5 @@
 /*
-Copyright 2015-2018 Intel Corporation
+Copyright 2015-2019 Intel Corporation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -75,7 +75,8 @@ struct MDH_Context {
 
 // Obtain the MetricsDiscovery API version used to compile
 // MetricsDiscoveryHelper (MDH_GetApiVersion()) or by the system's driver
-// (MDH_GetDriverVersion()).
+// (MDH_GetDriverVersion()), or get the MetricsDiscoveryHelper layer version
+// (MDH_GetHelperVersion()).
 //
 // MDH_Context::Initialize() does not require that the versions match and
 // MetricsDiscovery API is backwards compatible.  However, the driver may not
@@ -88,6 +89,11 @@ struct MDH_Context {
 //
 // MDH_DriverSupportsMDVersion() will return true if the specified device
 // (driver) supports the specified version or greater.
+//
+// MDH_GetHelperVersion() will return the git commit has as the BuildVersion if
+// it was built from a forked git repository, otherwise BuildVersion will be 0.
+// If the MetricsDiscoveryHelper is not an official release, MajorVersion and
+// MinorVersion will both be 0.
 
 struct MDH_Version {
     uint32_t MajorVersion;
@@ -96,6 +102,7 @@ struct MDH_Version {
 };
 
 MDH_Version MDH_GetAPIVersion();
+MDH_Version MDH_GetHelperVersion();
 MDH_Version MDH_GetDriverVersion(MetricsDiscovery::IMetricsDevice_1_0* mdDevice);
 
 bool MDH_DriverSupportsMDVersion(

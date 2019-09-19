@@ -1,5 +1,5 @@
 /*
-Copyright 2015-2018 Intel Corporation
+Copyright 2015-2019 Intel Corporation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -32,6 +32,8 @@ SOFTWARE.
 #include <ntddvdeo.h>
 #include <shlwapi.h>
 #include <setupapi.h>
+
+#include <generated/version.h>
 
 namespace {
 
@@ -160,6 +162,15 @@ MDH_Version MDH_GetAPIVersion()
     version.MajorVersion = MetricsDiscovery::MD_API_MAJOR_NUMBER_CURRENT;
     version.MinorVersion = MetricsDiscovery::MD_API_MINOR_NUMBER_CURRENT;
     version.BuildVersion =                   MD_API_BUILD_NUMBER_CURRENT;
+    return version;
+}
+
+MDH_Version MDH_GetHelperVersion()
+{
+    MDH_Version version = {};
+    version.MajorVersion = MDH_VERSION_MAJOR;
+    version.MinorVersion = MDH_VERSION_MINOR;
+    version.BuildVersion = MDH_VERSION_GIT;
     return version;
 }
 
