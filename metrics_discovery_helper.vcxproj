@@ -110,7 +110,7 @@
     </Lib>
     <CustomBuildStep>
       <Message>Generating version sources</Message>
-      <Command>scripts\generate_version_sources.cmd "$(IntDir)generated\version.h" 0 0</Command>
+      <Command>scripts\generate_version_sources.cmd "$(IntDir)generated\version.h" 1 1</Command>
       <Outputs>$(IntDir)generated\version.h</Outputs>
       <TreatOutputAsContent>false</TreatOutputAsContent>
     </CustomBuildStep>
