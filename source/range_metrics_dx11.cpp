@@ -160,25 +160,22 @@ void MDH_RangeMetricsDX11::GetRangeReports(
     assert(firstRangeIndex + numRanges <= ReportMemory.NumReportsAllocated);
     assert(D3D11Async != nullptr);
 
-    auto reportData = ReportMemory.GetReportData(firstRangeIndex);
-    assert(reportData != nullptr);
-
-    // If IsQuery==true, the driver will return a pointer to the report data.
-    // Otherwise, the driver returns the report data directly.
-
-    void* dataPtr;
-    uint32_t dataByteSize;
-    void* driverAddr = nullptr;
-    if (IsQuery) {
-        dataPtr      = reportData;
-        dataByteSize = ReportMemory.ReportByteSize;
-    } else {
-        dataPtr      = &driverAddr;
-        dataByteSize = sizeof(void*);
-    }
-
     for (uint32_t i = 0; i < numRanges; ++i) {
         auto rangeIndex = firstRangeIndex + i;
+        auto reportDst = ReportMemory.GetReportData(rangeIndex);
+
+        // If IsQuery==true, the driver will write the report data into the
+        // provided memory, otherwise the driver returns a pointer to the report
+        // data
+        void* dataPtr;
+        uint32_t dataByteSize;
+        if (IsQuery) {
+            dataPtr      = reportDst;
+            dataByteSize = ReportMemory.ReportByteSize;
+        } else {
+            dataPtr      = &dataPtr;
+            dataByteSize = sizeof(void*);
+        }
 
         assert(D3D11Async[rangeIndex] != nullptr);
         if (deviceCtxt->GetData(D3D11Async[rangeIndex], dataPtr, dataByteSize, 0) != S_OK) {
@@ -186,10 +183,10 @@ void MDH_RangeMetricsDX11::GetRangeReports(
                 Sleep(1);
             } while (deviceCtxt->GetData(D3D11Async[rangeIndex], dataPtr, dataByteSize, D3D11_ASYNC_GETDATA_DONOTFLUSH) != S_OK);
         }
-    }
 
-    if (!IsQuery) {
-        memcpy(reportData, driverAddr, ReportMemory.ReportByteSize * numRanges);
+        if (!IsQuery) {
+            memcpy(reportDst, dataPtr, ReportMemory.ReportByteSize);
+        }
     }
 }
 
