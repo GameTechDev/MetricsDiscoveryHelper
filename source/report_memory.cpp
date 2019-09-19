@@ -1,5 +1,5 @@
 /*
-Copyright 2015-2018 Intel Corporation
+Copyright 2015-2019 Intel Corporation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -73,6 +73,7 @@ void MDH_ReportValues::Initialize(
     uint32_t numReportsToAllocate)
 {
     assert(mdMetricSet != nullptr);
+    assert(numReportsToAllocate != 0);
 
     auto metricSetParams = mdMetricSet->GetParams();
     assert(metricSetParams != nullptr);
@@ -85,25 +86,34 @@ void MDH_ReportValues::Initialize(
     ReportValues = new MetricsDiscovery::TTypedValue_1_0 [numReportsToAllocate * NumReportValues];
     assert(ReportValues != nullptr);
 
-    for (uint32_t metricIdx = 0; metricIdx < metricsCount; ++metricIdx) {
-        auto metric = mdMetricSet->GetMetric(metricIdx);
-        assert(metric != nullptr);
-
-        auto metricParams = metric->GetParams();
-        assert(metricParams != nullptr);
-
+    // Initialize ValueType portion of the reports based on the metric params
+    // result type and value to 0.
+    //
+    // There is no result type information in the Information params, so we
+    // leave information-based values unknown (VALUE_LAST_TYPE).
+    for (uint32_t i = 0; i < NumReportValues; ++i) {
         MetricsDiscovery::TValueType valueType = MetricsDiscovery::VALUE_TYPE_LAST;
-        switch (metricParams->ResultType) {
-        case MetricsDiscovery::RESULT_UINT32: valueType = MetricsDiscovery::VALUE_TYPE_UINT32; break;
-        case MetricsDiscovery::RESULT_UINT64: valueType = MetricsDiscovery::VALUE_TYPE_UINT64; break;
-        case MetricsDiscovery::RESULT_BOOL:   valueType = MetricsDiscovery::VALUE_TYPE_BOOL;   break;
-        case MetricsDiscovery::RESULT_FLOAT:  valueType = MetricsDiscovery::VALUE_TYPE_FLOAT;  break;
+        if (i < metricsCount) {
+            auto metric = mdMetricSet->GetMetric(i);
+            assert(metric != nullptr);
+
+            auto metricParams = metric->GetParams();
+            assert(metricParams != nullptr);
+
+            switch (metricParams->ResultType) {
+            case MetricsDiscovery::RESULT_UINT32: valueType = MetricsDiscovery::VALUE_TYPE_UINT32; break;
+            case MetricsDiscovery::RESULT_UINT64: valueType = MetricsDiscovery::VALUE_TYPE_UINT64; break;
+            case MetricsDiscovery::RESULT_BOOL:   valueType = MetricsDiscovery::VALUE_TYPE_BOOL;   break;
+            case MetricsDiscovery::RESULT_FLOAT:  valueType = MetricsDiscovery::VALUE_TYPE_FLOAT;  break;
+            }
         }
 
-        ReportValues[metricIdx].ValueType = valueType;
+        ReportValues[i].ValueType   = valueType;
+        ReportValues[i].ValueUInt64 = 0;
     }
-    for (uint32_t i = 1; i < numReportsToAllocate; ++i) {
-        memcpy(ReportValues + i * NumReportValues, ReportValues, NumReportValues * sizeof(MetricsDiscovery::TTypedValue_1_0));
+
+    for (uint32_t reportIdx = 1; reportIdx < numReportsToAllocate; ++reportIdx) {
+        memcpy(&ReportValues[reportIdx * NumReportValues], ReportValues, sizeof(MetricsDiscovery::TTypedValue_1_0) * NumReportValues);
     }
 }
 
