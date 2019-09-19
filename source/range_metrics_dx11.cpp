@@ -1,5 +1,5 @@
 /*
-Copyright 2015-2018 Intel Corporation
+Copyright 2015-2019 Intel Corporation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -65,7 +65,6 @@ bool MDH_RangeMetricsDX11::Initialize(
     assert(metricSetParams != nullptr);
     auto counterId = metricSetParams->ApiSpecificId.D3D1XDevDependentId;
     auto queryId = metricSetParams->ApiSpecificId.D3D1XQueryId;
-    auto reportByteSize = metricSetParams->QueryReportSize;
 
     IsQuery = queryId != 0;
 
@@ -94,9 +93,9 @@ bool MDH_RangeMetricsDX11::Initialize(
             return false;
         }
 
-        auto dataSize = D3D11Async[i]->GetDataSize();
-        auto expectedDataSize = IsQuery ? reportByteSize : (uint32_t) sizeof(void*);
-        assert(expectedDataSize == dataSize);
+        assert(
+            (IsQuery ? (size_t) metricSetParams->QueryReportSize : sizeof(void*)) ==
+            (size_t) D3D11Async[i]->GetDataSize());
     }
 
     cc = MDMetricSet->Deactivate();
@@ -199,6 +198,7 @@ void MDH_RangeMetricsDX11::ExecuteRangeEquations(
     uint32_t firstRangeIndex,
     uint32_t numRanges) const
 {
+    (void) deviceCtxt;
     assert(MDDevice != nullptr);
     assert(MDMetricSet != nullptr);
     assert(firstRangeIndex + numRanges <= ReportMemory.NumReportsAllocated);
